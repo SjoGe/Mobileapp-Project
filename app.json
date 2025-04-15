@@ -2,6 +2,7 @@
   "expo": {
     "name": "sahkoguru",
     "slug": "sahkoguru",
+    "owner": "sjoge",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,6 +17,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.ryhma18.sahkoguru",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -23,6 +25,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "62745a70-1c8d-44a7-8709-67ae624b2362"
+      }
     }
   }
 }
