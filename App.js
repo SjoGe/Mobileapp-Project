@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { DeviceLimitsProvider, DeviceLimitsContext } from './DeviceLimitsContext';
 import * as Notifications from 'expo-notifications';
@@ -102,7 +103,7 @@ const AppWrapper = () => {
         <Drawer.Screen name="Hälytykset" component={HalytyksetScreen} />
         <Drawer.Screen name="Asetukset" children={(props) => <AsetuksetScreen {...props} expoPushToken={expoPushToken} />}/>
         <Drawer.Screen name="Kirjaudu" component={KirjauduScreen} />
-        <Drawer.Screen name="Rekisteröi" component={RekisteroiScreen} />
+        <Drawer.Screen name="Rekisteröidy" component={RekisteroiScreen} />
 
       </Drawer.Navigator>
     </NavigationContainer>
