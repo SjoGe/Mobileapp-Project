@@ -4,7 +4,6 @@ import { View, Text, TextInput, Button, StyleSheet, Alert, KeyboardAvoidingView,
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../configs/firebaseconfig';
 import { doc, setDoc } from 'firebase/firestore';
-import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -15,7 +14,7 @@ export default function RegisterScreen({ navigation }) {
 
   const handleRegister = async () => {
     
-    if (!email || !password || !fullName || !birthday) {
+    if (!email || !password || !fullName || !birthdayInput) {
       Alert.alert("Täytä kaikki kentät");
       return;
     }
@@ -107,9 +106,10 @@ export default function RegisterScreen({ navigation }) {
                 placeholderTextColor="#999"
               />
   
-                <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
-                <Text style={styles.registerButtonText}>Luo tili</Text>
-                </TouchableOpacity>
+            <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
+              <Text style={styles.registerButtonText}>Luo tili</Text>
+            </TouchableOpacity>
+
   
                 <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Kirjaudu')}>
                 <Text style={styles.loginButtonText}>Kirjaudu sisään</Text>
