@@ -9,29 +9,36 @@ export const DeviceLimitsProvider = ({ children }) => {
     Pyykki: { lower: 2.5, upper: 8.0 },
     Sauna: { lower: 2.5, upper: 8.0 },
     'S-Auto': { lower: 2.5, upper: 8.0 },
-    general: 4.0, // Yleinen rajahinta
+    general: 4.0,
   });
 
+  const [visibleDevices, setVisibleDevices] = useState(['Astiat', 'Pyykki', 'Sauna', 'S-Auto', 'general']);
+
   useEffect(() => {
-    const loadLimits = async () => {
+    const load = async () => {
       try {
         const stored = await AsyncStorage.getItem('deviceLimits');
-        if (stored) {
-          setLimits(JSON.parse(stored));
-        }
+        const visible = await AsyncStorage.getItem('visibleDevices');
+
+        if (stored) setLimits(JSON.parse(stored));
+        if (visible) setVisibleDevices(JSON.parse(visible));
       } catch (e) {
-        console.log('Virhe ladattaessa rajoja:', e);
+        console.log('Virhe ladattaessa asetuksia:', e);
       }
     };
-    loadLimits();
+    load();
   }, []);
 
   useEffect(() => {
     AsyncStorage.setItem('deviceLimits', JSON.stringify(limits)).catch(console.log);
   }, [limits]);
 
+  useEffect(() => {
+    AsyncStorage.setItem('visibleDevices', JSON.stringify(visibleDevices)).catch(console.log);
+  }, [visibleDevices]);
+
   return (
-    <DeviceLimitsContext.Provider value={{ limits, setLimits }}>
+    <DeviceLimitsContext.Provider value={{ limits, setLimits, visibleDevices, setVisibleDevices }}>
       {children}
     </DeviceLimitsContext.Provider>
   );
