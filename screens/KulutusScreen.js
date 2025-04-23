@@ -42,8 +42,7 @@ export default function KulutusScreen() {
   };
 
   const calculateTotalConsumption = () => {
-    const totalKWh = devices.reduce((sum, d) => sum + ((d.watt * d.hours) / 1000), 0);
-    return totalKWh;
+    return devices.reduce((sum, d) => sum + ((d.watt * d.hours) / 1000), 0);
   };
 
   const estimateProduction = () => {
@@ -75,12 +74,17 @@ export default function KulutusScreen() {
         <Text style={styles.title}>Kodin laitteiden kulutus</Text>
         {devices.map((device, index) => (
           <View key={index} style={styles.deviceRow}>
-            <TextInput
-              style={[styles.input, { flex: 1 }]}
-              value={device.name}
-              onChangeText={(v) => updateDevice(index, 'name', v)}
-              placeholder="Laitteen nimi"
-            />
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <TextInput
+                style={[styles.input, { flex: 1 }]}
+                value={device.name}
+                onChangeText={(v) => updateDevice(index, 'name', v)}
+                placeholder="Laitteen nimi"
+              />
+              <TouchableOpacity onPress={() => removeDevice(index)}>
+                <MaterialCommunityIcons name="delete" size={24} color="red" style={{ marginLeft: 6 }} />
+              </TouchableOpacity>
+            </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
               <Text style={styles.label}>Teho:</Text>
               <TextInput
@@ -101,9 +105,6 @@ export default function KulutusScreen() {
               />
               <Text style={styles.unit}>h/pv</Text>
               <Text style={{ marginLeft: 6 }}>{((device.watt * device.hours) / 1000).toFixed(2)} kWh</Text>
-              <TouchableOpacity onPress={() => removeDevice(index)}>
-                <MaterialCommunityIcons name="delete" size={24} color="red" style={{ marginLeft: 6 }} />
-              </TouchableOpacity>
             </View>
           </View>
         ))}

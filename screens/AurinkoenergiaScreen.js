@@ -20,9 +20,9 @@ export default function AurinkoMapScreen() {
   const [markers, setMarkers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [panelSize, setPanelSize] = useState(5);
-  const [efficiency, setEfficiency] = useState(80);
-  const [price, setPrice] = useState(0.15);
+  const [panelSize, setPanelSize] = useState('5');
+  const [efficiency, setEfficiency] = useState('80');
+  const [price, setPrice] = useState('0.15');
   const [showSettings, setShowSettings] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -42,9 +42,9 @@ export default function AurinkoMapScreen() {
     const savedSettings = await AsyncStorage.getItem('panelSettings');
     if (savedSettings) {
       const s = JSON.parse(savedSettings);
-      setPanelSize(s.panelSize || 5);
-      setEfficiency(s.efficiency || 80);
-      setPrice(s.price || 0.15);
+      setPanelSize(s.panelSize?.toString() || '5');
+      setEfficiency(s.efficiency?.toString() || '80');
+      setPrice(s.price?.toString() || '0.15');
     }
 
     const savedMarkers = await AsyncStorage.getItem('panelMarkers');
@@ -54,7 +54,11 @@ export default function AurinkoMapScreen() {
   };
 
   useEffect(() => {
-    AsyncStorage.setItem('panelSettings', JSON.stringify({ panelSize, efficiency, price }));
+    AsyncStorage.setItem('panelSettings', JSON.stringify({
+      panelSize: parseFloat(panelSize),
+      efficiency: parseFloat(efficiency),
+      price: parseFloat(price)
+    }));
   }, [panelSize, efficiency, price]);
 
   useEffect(() => {
@@ -152,8 +156,8 @@ export default function AurinkoMapScreen() {
 
   const estimateProduction = () => {
     const hoursSunshine = 5;
-    const kWh = panelSize * (efficiency / 100) * hoursSunshine;
-    const euro = kWh * price;
+    const kWh = parseFloat(panelSize) * (parseFloat(efficiency) / 100) * hoursSunshine;
+    const euro = kWh * parseFloat(price);
     return { kWh: kWh.toFixed(2), euro: euro.toFixed(2) };
   };
 
@@ -188,11 +192,11 @@ export default function AurinkoMapScreen() {
       {!mapExpanded && showSettings && (
         <View style={styles.settings}>
           <Text>Teho (kW):</Text>
-          <TextInput style={styles.input} keyboardType="numeric" value={panelSize.toString()} onChangeText={v => setPanelSize(parseFloat(v) || 0)} />
+          <TextInput style={styles.input} keyboardType="decimal-pad" value={panelSize} onChangeText={v => setPanelSize(v.replace(',', '.'))} />
           <Text>Hyötysuhde (%):</Text>
-          <TextInput style={styles.input} keyboardType="numeric" value={efficiency.toString()} onChangeText={v => setEfficiency(parseFloat(v) || 0)} />
+          <TextInput style={styles.input} keyboardType="decimal-pad" value={efficiency} onChangeText={v => setEfficiency(v.replace(',', '.'))} />
           <Text>Sähkön hinta (€/kWh):</Text>
-          <TextInput style={styles.input} keyboardType="numeric" value={price.toString()} onChangeText={v => setPrice(parseFloat(v) || 0)} />
+          <TextInput style={styles.input} keyboardType="decimal-pad" value={price} onChangeText={v => setPrice(v.replace(',', '.'))} />
         </View>
       )}
 
