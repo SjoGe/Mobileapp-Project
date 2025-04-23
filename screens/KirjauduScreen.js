@@ -100,7 +100,7 @@ export default function LoginScreen({ navigation }) {
             <Text style={styles.loginButtonText}>Kirjaudu</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate('Rekisteröi')}>
+            <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate('Rekisteröidy')}>
             <Text style={styles.registerButtonText}>Rekisteröidy</Text>
             </TouchableOpacity>
             </View>
